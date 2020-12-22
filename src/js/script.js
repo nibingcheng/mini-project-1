@@ -25,7 +25,8 @@ class Deck {
         constructor (length) {
         this.length = length
         this.cards = []
-    
+        this.topStack = []
+        this.bottomStack = []
         }
         create() {
             for (let i=1; i<=13; i++){
@@ -43,7 +44,9 @@ class Deck {
             } 
         }
         split() {
-        
+            this.bottomStack = this.cards.splice(this.length/2);
+            this.topStack = this.cards;
+        //    console.log(this.bottomStack)
         }
         putBackAtEnd(num) {
         
@@ -53,7 +56,10 @@ class Deck {
         }
 }
   
-let fullDeck = new Deck(52)
-fullDeck.create()
-fullDeck.shuffle()
-console.log(fullDeck.cards)
+let fullDeck = new Deck(52)     //fullDeck is an object; fullDeck.cards ==> []
+fullDeck.create()               //fullDeck.cards ==> unshuffled 52 cards  
+fullDeck.shuffle()            //fullDeck.cards ==> shuffled 52 cards
+fullDeck.split()                //topStack and bottomStack
+console.log(fullDeck.topStack)
+console.log(fullDeck.bottomStack)
+
