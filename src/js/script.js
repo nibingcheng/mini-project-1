@@ -22,8 +22,7 @@ class Card {
 let myCard = new Card ("Heart", 'Queen');
   
 class Deck {
-        constructor (length) {
-        this.length = length
+        constructor () {
         this.cards = []                     //An array to hold 52 cards
         this.topStack = []                  //An array to hold 26 cards
         this.bottomStack = []               //An array to hold 26 cards
@@ -34,59 +33,70 @@ class Deck {
                     this.cards.push(i);
             }
         }
-        shuffle() {
-            for( let i=0; i<this.length; i++ ) {
+        shuffle(number) {
+            for( let i=0; i<number; i++ ) {
                 let removedItem = this.cards.pop();
-               // console.log(removedItem);
-                
                 this.cards.splice(Math.floor(Math.random()*this.cards.length),0,removedItem);
-               // this.cards.splice(Math.floor(Math.random()*this.length, 0, removedItem));
             } 
         }
         split() {
-            this.bottomStack = this.cards.splice(this.length/2);
+            this.bottomStack = this.cards.splice(this.cards.length/2);
             this.topStack = this.cards;
-        //    console.log(this.bottomStack)
         }
         
 }
   
-let fullDeck = new Deck(52)     //fullDeck is an object; fullDeck.cards ==> []
+let fullDeck = new Deck()     //fullDeck is an object; fullDeck.cards ==> []
 fullDeck.create()               //fullDeck.cards ==> unshuffled 52 cards  
-fullDeck.shuffle()              //fullDeck.cards ==> shuffled 52 cards
+fullDeck.shuffle(52)              //fullDeck.cards ==> shuffled 52 cards
 fullDeck.shuffle()
 fullDeck.split()                //generate topStack and bottomStack
 
 let topStack = fullDeck.topStack;
 let bottomStack = fullDeck.bottomStack;
-console.log(topStack)
-console.log(bottomStack)
+//console.log(topStack)
+//console.log(bottomStack)
 
-class War {
+class Game {
         constructor (player1, stack1, player2, stack2) {
         this.player1 = player1
         this.player2 = player2
         this.stack1 = stack1
         this.stack2 = stack2
+        this.drawnCardsPlayer1 = []
+        this.drawnCardsPlayer2 = [] 
     }
 
-    putBackAtEnd(num) {
-        
-    }
-    drawTopCards(num) {
-        let drawnCards = [];
-        for (let i=0; i<num; i++) {
-            drawnCards[i] = this.stack1.shift()
+    putBackAtEnd(winnerName, winningCards) { 
+        let number = winningCards.length; console.log(winnerName, this.player1)
+        if (winnerName === this.player1) {
+            //put back in random order
+            for( let i=0; i<number; i++ ) {
+                let removedItem = winningCards.pop();
+                winningCards.splice(Math.floor(Math.random()*winningCards.length),0,removedItem);
+            } 
+this.stack1.splice(this.stack1.length-1, 0, winningCards);
         }
-         
-        console.log(this.player1);
-        console.log(this.player2);
-        console.log(this.stack1);
-        console.log(this.stack2);
+        else {
+
+        }
+    }
+    drawCardsFromTop(num) {
+        
+        for (let i=0; i<num; i++) {
+            this.drawnCardsPlayer1[i] = this.stack1.shift();
+            this.drawnCardsPlayer2[i] = this.stack2.shift();
+        }
+    //    console.log(this.stack1);
+    //    console.log(this.stack2); 
+    //    console.log(this.drawnCardsPlayer1);
+    //    console.log(this.drawnCardsPlayer2);
     }
 
 }
 
-let game = new War ('Matt', topStack, 'Nick', bottomStack);
+let warGame = new Game ('Matt', topStack, 'Nick', bottomStack);
 
-let arr1 = game.drawTopCards(1)
+warGame.drawCardsFromTop(3)
+warGame.putBackAtEnd('Nick', [2,3,4,5])
+//console.log(warGame.stack1)
