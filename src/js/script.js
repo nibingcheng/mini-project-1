@@ -24,9 +24,9 @@ let myCard = new Card ("Heart", 'Queen');
 class Deck {
         constructor (length) {
         this.length = length
-        this.cards = []
-        this.topStack = []
-        this.bottomStack = []
+        this.cards = []                     //An array to hold 52 cards
+        this.topStack = []                  //An array to hold 26 cards
+        this.bottomStack = []               //An array to hold 26 cards
         }
         create() {
             for (let i=1; i<=13; i++){
@@ -48,18 +48,45 @@ class Deck {
             this.topStack = this.cards;
         //    console.log(this.bottomStack)
         }
-        putBackAtEnd(num) {
         
-        }
-        drawTopCards(num) {
-        
-        }
 }
   
 let fullDeck = new Deck(52)     //fullDeck is an object; fullDeck.cards ==> []
 fullDeck.create()               //fullDeck.cards ==> unshuffled 52 cards  
-fullDeck.shuffle()            //fullDeck.cards ==> shuffled 52 cards
-fullDeck.split()                //topStack and bottomStack
-console.log(fullDeck.topStack)
-console.log(fullDeck.bottomStack)
+fullDeck.shuffle()              //fullDeck.cards ==> shuffled 52 cards
+fullDeck.shuffle()
+fullDeck.split()                //generate topStack and bottomStack
 
+let topStack = fullDeck.topStack;
+let bottomStack = fullDeck.bottomStack;
+console.log(topStack)
+console.log(bottomStack)
+
+class War {
+        constructor (player1, stack1, player2, stack2) {
+        this.player1 = player1
+        this.player2 = player2
+        this.stack1 = stack1
+        this.stack2 = stack2
+    }
+
+    putBackAtEnd(num) {
+        
+    }
+    drawTopCards(num) {
+        let drawnCards = [];
+        for (let i=0; i<num; i++) {
+            drawnCards[i] = this.stack1.shift()
+        }
+         
+        console.log(this.player1);
+        console.log(this.player2);
+        console.log(this.stack1);
+        console.log(this.stack2);
+    }
+
+}
+
+let game = new War ('Matt', topStack, 'Nick', bottomStack);
+
+let arr1 = game.drawTopCards(1)
