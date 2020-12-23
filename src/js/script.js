@@ -46,14 +46,14 @@ class Deck {
         
 }
   
-let fullDeck = new Deck()     //fullDeck is an object; fullDeck.cards ==> []
-fullDeck.create()               //fullDeck.cards ==> unshuffled 52 cards  
-fullDeck.shuffle(52)              //fullDeck.cards ==> shuffled 52 cards
-fullDeck.shuffle()
-fullDeck.split()                //generate topStack and bottomStack
+let deck = new Deck()     //fullDeck is an object; fullDeck.cards ==> []
+deck.create()               //fullDeck.cards ==> unshuffled 52 cards  
+deck.shuffle(52)              //fullDeck.cards ==> shuffled 52 cards
+deck.shuffle()
+deck.split()                //generate topStack and bottomStack
 
-let topStack = fullDeck.topStack;
-let bottomStack = fullDeck.bottomStack;
+let topStack = deck.topStack;
+let bottomStack = deck.bottomStack;
 //console.log(topStack)
 //console.log(bottomStack)
 
@@ -68,14 +68,17 @@ class Game {
     }
 
     putBackAtEnd(winnerName, winningCards) { 
-        let number = winningCards.length; console.log(winnerName, this.player1)
+        let number = winningCards.length; 
         if (winnerName === this.player1) {
-            //put back in random order
+            //put back in random order, only works for more than 2 cards in winningcards[]
             for( let i=0; i<number; i++ ) {
                 let removedItem = winningCards.pop();
                 winningCards.splice(Math.floor(Math.random()*winningCards.length),0,removedItem);
             } 
-this.stack1.splice(this.stack1.length-1, 0, winningCards);
+console.log(this.stack1);
+            let temp = this.stack1.concat(winningCards);
+console.log(winningCards)
+console.log(temp);
         }
         else {
 
@@ -98,5 +101,5 @@ this.stack1.splice(this.stack1.length-1, 0, winningCards);
 let warGame = new Game ('Matt', topStack, 'Nick', bottomStack);
 
 warGame.drawCardsFromTop(3)
-warGame.putBackAtEnd('Nick', [2,3,4,5])
+warGame.putBackAtEnd('Matt', [2,6,3])
 //console.log(warGame.stack1)
