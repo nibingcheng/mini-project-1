@@ -95,8 +95,9 @@ class Game {
     drawCardsFromTop(num) {
  // each player draws same number (num) of cards, 
  // return is an array contanining cards from both players    
- this.drawnCardsPlayer1 = [];
- this.drawnCardsPlayer2 = [];   
+        this.drawnCardsPlayer1 = [];
+        this.drawnCardsPlayer2 = [];
+
         for (let i=0; i<num; i++) {
             this.drawnCardsPlayer1[i] = this.stack1.shift();
             this.drawnCardsPlayer2[i] = this.stack2.shift();
@@ -166,10 +167,10 @@ class Play {
     }
     
     thisIsWar () {
-        {
-            let array2 = warGame.drawCardsFromTop(3); 
-            let tempArr = this.cardsOnTable.concat(array2);
-            this.cardsOnTable = tempArr;
+        {  
+        let array2 = warGame.drawCardsFromTop(3); 
+        let tempArr = this.cardsOnTable.concat(array2);
+        this.cardsOnTable = tempArr;       
         }
     }
 
@@ -197,24 +198,37 @@ let splitDeck = deck.split()   //splitDeck[ [top deck], [bottom deck]]
 let warGame = new Game (warPlay.player1, splitDeck[0], warPlay.player2, splitDeck[1]);
 //  console.log(splitDeck[0], splitDeck[1]);  
 
-let arr1 = [];
+let arr1 = [];  // array [[winner name], [2 face up cards], [all cards on table]]
 
-for (let k=0; k<50; k++) {
-    arr1 = warPlay.showHands();
-    if (arr1[0] !== 'tie') {    
-    console.log(arr1[0], arr1[1]);
-    warPlay.winnerTakeAll();
-    console.log("   ", warGame.player1, warGame.stack1) 
-    console.log("   ", warGame.player2, warGame.stack2)
-    console.log("    cards on table", warPlay.cardsOnTable)
-    console.log('\n')
-    }
-    else    {            //(warPlay.winner === 'tie')
-        console.log(arr1[0], " -> ", arr1[1]);
-        warPlay.thisIsWar();
-        console.log("   ", warGame.player1, warGame.stack1) 
-        console.log("   ", warGame.player2, warGame.stack2)
-        console.log("    cards on table", warPlay.cardsOnTable)
+function gameStart() {
+    let k =0;
+    while ( warGame.stack1.length > 0 && warGame.stack2.length >0) {      //for (let k=0; k<250; k++)
+        k++;
+        console.log("start", warGame.player1, warGame.stack1.length, warGame.player2, warGame.stack2.length)
+
+        arr1 = warPlay.showHands();
+
+        if (arr1[0] !== 'tie') {    
+        console.log(arr1[0], arr1[1]);
+        warPlay.winnerTakeAll();
+        console.log("end", warGame.player1, warGame.stack1.length, warGame.player2, warGame.stack2.length)
+        console.log("cards on table", warPlay.cardsOnTable.length)
         console.log('\n')
+        }
+        else    {            //(warPlay.winner === 'tie')
+            console.log(arr1[0], " -> ", arr1[1]);
+            warPlay.thisIsWar();
+            console.log("end", warGame.player1, warGame.stack1.length, warGame.player2, warGame.stack2.length)
+            console.log("cards on table", warPlay.cardsOnTable.length)
+            console.log('\n')
+        }
     }
+    return k;
 } 
+
+let count = gameStart();
+
+if (warGame.stack1.length > warGame.stack2.length)
+    console.log('\n', 'Game winner is: ', warGame.player1, '(', count, ')')
+else 
+    console.log('\n', 'Game winner is: ', warGame.player2, '(', count, ')')
