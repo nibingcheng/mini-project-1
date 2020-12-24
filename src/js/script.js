@@ -27,6 +27,7 @@ class Deck {
         this.topStack = []                  //An array to hold 26 cards
         this.bottomStack = []               //An array to hold 26 cards
         }
+
         create() {
             for (let i=1; i<=13; i++){
                 for (let j=0; j<4; j++)
@@ -96,6 +97,7 @@ class Game {
             this.drawnCardsPlayer1[i] = this.stack1.shift();
             this.drawnCardsPlayer2[i] = this.stack2.shift();
         }
+        return this.drawnCardsPlayer1.concat(this.drawnCardsPlayer2);
 //console.log(this.stack1);
 //console.log(this.stack2); 
 //console.log(this.drawnCardsPlayer1);
@@ -114,32 +116,17 @@ warGame.putBackAtEnd(warGame.player1, warGame.drawnCardsPlayer1.concat(warGame.d
 console.log(warGame.stack1, '\n', warGame.stack2)
 */
 class Play {
-    constructor () {
-        this.player1 = 'Matt'
-        this.player2 = 'Nick'
-        this.stackOfPlayer1 = []
-        this.stackOfPlayer2 = []
+    constructor (player1, player2) {
+        this.player1 = player1
+        this.player2 = player2
         this.cardsOnTable = []
         this.winner = ""    //winner's name or 'tie'
     }
-
-    initGame () {
-        deck.create()               //deck.cards ==> unshuffled 52 cards  
-        deck.shuffle(52)              //deck.cards ==> shuffled 52 cards
-        deck.shuffle(52)
-        deck.split()                //deck.topStack and deck.bottomStack each contains 26 cards
-        
-        this.stackOfPlayer1 = deck.topStack;
-        this.stackOfPlayer2 = deck.bottomStack;
- console.log(this.player1, this.stackOfPlayer1);
- console.log(this.player1, this.stackOfPlayer1[9]);
- console.log(this.player1, this.stackOfPlayer2);
- console.log(this.player1, this.stackOfPlayer2[9]);
-    }
-    
+   
     deal () {
-        warGame.drawCardsFromTop(1);
-        this.cardsOnTable = warGame.drawnCardsPlayer1.concat(warGame.drawnCardsPlayer2);
+        let array = warGame.drawCardsFromTop(1);
+        let array1 = this.cardsOnTable.concat(array);
+        this.cardsOnTable = array1;
 
         if (warGame.drawnCardsPlayer1[0] > warGame.drawnCardsPlayer2[0]) {
             if (warGame.drawnCardsPlayer2[0] === 1) {
@@ -164,7 +151,7 @@ class Play {
             else
                 this.winner = "tie";        
 
-        console.log(this.player1, warGame.drawnCardsPlayer1, '\n', this.player2, warGame.drawnCardsPlayer2);
+ //       console.log(this.player1, warGame.drawnCardsPlayer1, '--', this.player2, warGame.drawnCardsPlayer2);
         //console.log(this.winner);
         if (this.winner === this.player1) {
             warGame.putBackAtEnd(warGame.player1, this.cardsOnTable);
@@ -174,6 +161,7 @@ class Play {
             warGame.putBackAtEnd(warGame.player2, this.cardsOnTable);
             this.cardsOnTable = [];
         }
+
         return this.winner;
 
 //                while (this.winner === "tie") {
@@ -182,24 +170,37 @@ class Play {
     
     breakTie () {
         {
-            warGame.drawCardsFromTop(3);
-            let tempArr = [];
-            tempArr = this.cardsOnTable.concat(warGame.drawnCardsPlayer2).concat(warGame.drawnCardsPlayer1);
+            let array2 = warGame.drawCardsFromTop(3);
+            let tempArr = this.cardsOnTable.concat(array2);
             this.cardsOnTable = tempArr;
         }
     }
 
 }
 
-let warPlay = new Play();
-warPlay.initGame()
-let warGame = new Game (warPlay.player1, warPlay.stackOfPlayer1, warPlay.player2, warPlay.stackOfPlayer2);
-//console.log(warPlay.stackOfPlayer1, '\n', warPlay.stackOfPlayer2)
+let warPlay = new Play('Matt', 'Nick');
+// warPlay.initGame()
+        deck.create()               //deck.cards ==> unshuffled 52 cards  
+        
+        deck.shuffle(52)              //deck.cards ==> shuffled 52 cards
+        deck.shuffle(52)
+        let splitDeck = deck.split()   
 
-warPlay.deal();
-console.log(warGame.player1, warGame.stack1) 
-console.log(warGame.player2, warGame.stack2)
+let warGame = new Game (warPlay.player1, splitDeck[0], warPlay.player2, splitDeck[1]);
 
-//console.log(warPlay.stackOfPlayer1, '\n', warPlay.stackOfPlayer2)
+//for (let k=0; k<52; k++)
+//    console.log(warPlay.stackOfPlayer1[k], '-:- ', warPlay.stackOfPlayer2[0])
+/*
+for (let k=0; k<25; k++)
+{
+    warPlay.deal();
+    console.log(warGame.player1, warGame.stack1) 
+    console.log(warGame.player2, warGame.stack2)
+    console.log('\n')
 
-//warPlay.breakTie()
+    if (warPlay.winner === 'tie')
+    {
+        warPlay.breakTie();
+//        console.log(warPlay.cardsOnTable);
+    }
+} */
