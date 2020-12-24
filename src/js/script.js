@@ -42,6 +42,7 @@ class Deck {
         split() {
             this.bottomStack = this.cards.splice(this.cards.length/2);
             this.topStack = this.cards;
+            return [this.topStack, this.bottomStack];
         }
         
 }
@@ -60,7 +61,7 @@ class Game {
         this.drawnCardsPlayer1 = []
         this.drawnCardsPlayer2 = [] 
     }
-
+//update each player's stack
     putBackAtEnd(winner, winningCards) { 
         let number = winningCards.length;
         let tempArray = [];           //put back in random order, only works for more than 2 cards in winningCards[]
@@ -118,6 +119,8 @@ class Play {
         this.player2 = 'Nick'
         this.stackOfPlayer1 = []
         this.stackOfPlayer2 = []
+        this.cardsOnTable = []
+        this.winner = ""    //winner's name or 'tie'
     }
 
     initGame () {
@@ -128,15 +131,75 @@ class Play {
         
         this.stackOfPlayer1 = deck.topStack;
         this.stackOfPlayer2 = deck.bottomStack;
+ console.log(this.player1, this.stackOfPlayer1);
+ console.log(this.player1, this.stackOfPlayer1[9]);
+ console.log(this.player1, this.stackOfPlayer2);
+ console.log(this.player1, this.stackOfPlayer2[9]);
+    }
+    
+    deal () {
+        warGame.drawCardsFromTop(1);
+        this.cardsOnTable = warGame.drawnCardsPlayer1.concat(warGame.drawnCardsPlayer2);
 
-//console.log(this.player1, this.stackOfPlayer1, '\n', this.player2, this.stackOfPlayer2);
+        if (warGame.drawnCardsPlayer1[0] > warGame.drawnCardsPlayer2[0]) {
+            if (warGame.drawnCardsPlayer2[0] === 1) {
+                this.winner = this.player2;
+ //               warGame.putBackAtEnd(warGame.player2, this.cardsOnTable)
+            }
+            else {
+                this.winner = this.player1;
+//                warGame.putBackAtEnd(warGame.player1, this.cardsOnTable)
+            }
+        }
+        else if (warGame.drawnCardsPlayer1[0] < warGame.drawnCardsPlayer2[0]) {
+                if (warGame.drawnCardsPlayer1[0] === 1) {
+                    this.winner = this.player1;
+//                    warGame.putBackAtEnd(warGame.player1, this.cardsOnTable)
+                }
+                else {
+                    this.winner = this.player2;
+//                    warGame.putBackAtEnd(warGame.player2, this.cardsOnTable)
+                    }
+                }
+            else
+                this.winner = "tie";        
+
+        console.log(this.player1, warGame.drawnCardsPlayer1, '\n', this.player2, warGame.drawnCardsPlayer2);
+        //console.log(this.winner);
+        if (this.winner === this.player1) {
+            warGame.putBackAtEnd(warGame.player1, this.cardsOnTable);
+            this.cardsOnTable = [];
+        }
+        if (this.winner === this.player2) {
+            warGame.putBackAtEnd(warGame.player2, this.cardsOnTable);
+            this.cardsOnTable = [];
+        }
+        return this.winner;
+
+//                while (this.winner === "tie") {
+//                    warGame.drawCardsFromTop(4);}
+    }
+    
+    breakTie () {
+        {
+            warGame.drawCardsFromTop(3);
+            let tempArr = [];
+            tempArr = this.cardsOnTable.concat(warGame.drawnCardsPlayer2).concat(warGame.drawnCardsPlayer1);
+            this.cardsOnTable = tempArr;
+        }
     }
 
 }
 
-let play = new Play();
-play.initGame()
-let warGame = new Game (play.player1, play.stackOfPlayer1, play.player2, play.stackOfPlayer2);
+let warPlay = new Play();
+warPlay.initGame()
+let warGame = new Game (warPlay.player1, warPlay.stackOfPlayer1, warPlay.player2, warPlay.stackOfPlayer2);
+//console.log(warPlay.stackOfPlayer1, '\n', warPlay.stackOfPlayer2)
 
-//play.startGame();
-console.log(warGame.player1,warGame.stack1, '\n', warGame.player2,warGame.stack2)
+warPlay.deal();
+console.log(warGame.player1, warGame.stack1) 
+console.log(warGame.player2, warGame.stack2)
+
+//console.log(warPlay.stackOfPlayer1, '\n', warPlay.stackOfPlayer2)
+
+//warPlay.breakTie()
