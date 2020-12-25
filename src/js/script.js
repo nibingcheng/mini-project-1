@@ -51,8 +51,6 @@ class Deck {
   
 let deck = new Deck()     //deck is an object; deck.cards is an array ==> [is empty]
 
-//console.log(topStack)
-//console.log(bottomStack)
 
 class Game {
         constructor (player1, stack1, player2, stack2) {
@@ -73,28 +71,24 @@ class Game {
                 let removedItem = cardsWon.pop();
                 cardsWon.splice(Math.floor(Math.random()*cardsWon.length),0,removedItem);
             } 
-//console.log(this.stack1);
+
             tempArray = this.stack1.concat(cardsWon);
             this.stack1 = tempArray;
-//console.log(winningCards)
-//console.log(this.stack1);
         }
         else {
             for( let i=0; i<number; i++ ) {
                 let removedItem = cardsWon.pop();
                 cardsWon.splice(Math.floor(Math.random()*cardsWon.length),0,removedItem);
             } 
-//console.log(this.stack1);
+
             tempArray = this.stack2.concat(cardsWon);
             this.stack2 = tempArray;
-//console.log(winningCards)
-//console.log(this.stack1);
         }
     }
 
     drawCardsFromTop(num) {
  // each player draws same number (num) of cards, 
- // return is an array contanining cards from both players    
+ // return an array contanining cards from both players    
         this.drawnCardsPlayer1 = [];
         this.drawnCardsPlayer2 = [];
 
@@ -104,9 +98,7 @@ class Game {
         }
 
         return this.drawnCardsPlayer1.concat(this.drawnCardsPlayer2);
-
     }
-
 }
 /*
 let warGame = new Game ('Matt', deck.topStack, 'Nick', deck.bottomStack);
@@ -123,7 +115,7 @@ class Play {
         this.player1 = player1
         this.player2 = player2
         this.cardsOnTable = []      // all cards including face up and down
-        this.winner = ""            //winner's name or 'tie'
+        this.winner = ""            // winner's name or 'tie' for each hand played
     }
    
     showHands () {
@@ -161,7 +153,7 @@ class Play {
             warGame.putBackAtEnd(warGame.player2, this.cardsOnTable);
             this.cardsOnTable = [];
         }
-*/
+*/      // array [[winner name], [2 face up cards], [all cards on table]]
         return [this.winner, array, this.cardsOnTable];
 
     }
@@ -202,12 +194,12 @@ let arr1 = [];  // array [[winner name], [2 face up cards], [all cards on table]
 
 function gameStart() {
     let k =0;
-    while ( warGame.stack1.length > 0 && warGame.stack2.length >0 && k<200) {      //for (let k=0; k<250; k++)
+    while ( warGame.stack1.length > 0 && warGame.stack2.length >0 && k<250) {      //for (let k=0; k<250; k++)
         k++;
         console.log("start", warGame.player1, warGame.stack1.length, warGame.player2, warGame.stack2.length)
 
         arr1 = warPlay.showHands();
-        if (arr1[1][0] === undefined || arr1[1][1] === undefined)
+        if (arr1[1][0] === undefined || arr1[1][1] === undefined)  // double safety for ending game properly
             return k;
         if (arr1[0] !== 'tie') {    
         console.log(arr1[0], arr1[1]);
