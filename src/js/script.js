@@ -38,7 +38,7 @@ class Deck {
             let removedItem;
             for (let i=0; i<number; i++) {
                 removedItem = this.cards.pop();
-                this.cards.splice(Math.floor(Math.random()*this.cards.length*2/3),0,removedItem);
+                this.cards.splice(Math.floor(Math.random()*this.cards.length),0,removedItem);
             } 
         }
         split() {
@@ -71,7 +71,7 @@ class Game {
         if (winner === this.player1) {
             for( let i=0; i<number; i++ ) {
                 let removedItem = cardsWon.pop();
-                cardsWon.splice(Math.floor(Math.random()*cardsWon.length*0.5),0,removedItem);
+                cardsWon.splice(Math.floor(Math.random()*cardsWon.length),0,removedItem);
             } 
 //console.log(this.stack1);
             tempArray = this.stack1.concat(cardsWon);
@@ -82,7 +82,7 @@ class Game {
         else {
             for( let i=0; i<number; i++ ) {
                 let removedItem = cardsWon.pop();
-                cardsWon.splice(Math.floor(Math.random()*cardsWon.length*0.5),0,removedItem);
+                cardsWon.splice(Math.floor(Math.random()*cardsWon.length),0,removedItem);
             } 
 //console.log(this.stack1);
             tempArray = this.stack2.concat(cardsWon);
@@ -191,8 +191,8 @@ let warPlay = new Play('Matt', 'Nick');
 // warPlay.initGame()
 deck.create()               //deck.cards ==> unshuffled 52 cards  
 
-deck.shuffle(52)              //deck.cards ==> shuffled 52 cards
-deck.shuffle(52)
+deck.shuffle(100)              //deck.cards ==> shuffled 52 cards
+
 let splitDeck = deck.split()   //splitDeck[ [top deck], [bottom deck]]
 
 let warGame = new Game (warPlay.player1, splitDeck[0], warPlay.player2, splitDeck[1]);
@@ -202,12 +202,13 @@ let arr1 = [];  // array [[winner name], [2 face up cards], [all cards on table]
 
 function gameStart() {
     let k =0;
-    while ( warGame.stack1.length > 0 && warGame.stack2.length >0) {      //for (let k=0; k<250; k++)
+    while ( warGame.stack1.length > 0 && warGame.stack2.length >0 && k<200) {      //for (let k=0; k<250; k++)
         k++;
         console.log("start", warGame.player1, warGame.stack1.length, warGame.player2, warGame.stack2.length)
 
         arr1 = warPlay.showHands();
-
+        if (arr1[1][0] === undefined || arr1[1][1] === undefined)
+            return k;
         if (arr1[0] !== 'tie') {    
         console.log(arr1[0], arr1[1]);
         warPlay.winnerTakeAll();
