@@ -38,7 +38,7 @@ class Deck {
             let removedItem;
             for (let i=0; i<number; i++) {
                 removedItem = this.cards.pop();
-                this.cards.splice(Math.floor(Math.random()*this.cards.length),0,removedItem);
+                this.cards.splice(Math.floor(Math.random()*this.cards.length/2),0,removedItem);
             } 
         }
         split() {
@@ -194,7 +194,7 @@ let arr1 = [];  // array [[winner name], [2 face up cards], [all cards on table]
 
 function gameStart() {
     let k =0;
-    while ( warGame.stack1.length > 0 && warGame.stack2.length >0 && k<250) {      //for (let k=0; k<250; k++)
+    while (Math.min(warGame.stack1.length, warGame.stack2.length) >0 && k<250) {      //for (let k=0; k<250; k++)
         k++;
         console.log("start", warGame.player1, warGame.stack1.length, warGame.player2, warGame.stack2.length)
 
@@ -221,7 +221,17 @@ function gameStart() {
 
 let count = gameStart();
 
-if (warGame.stack1.length > warGame.stack2.length)
-    console.log('\n', 'Game winner is: ', warGame.player1, '(', count, ')')
-else 
-    console.log('\n', 'Game winner is: ', warGame.player2, '(', count, ')')
+if (warGame.stack1.length > warGame.stack2.length && count!== 250) { 
+//    console.log('\n', 'Game winner is: ', warGame.player1, '(', count, ')')
+        prompt('Winner is: ' + warGame.player1 + ' >> ' + count);
+        console.clear();
+}
+else if (count ===250) {
+        prompt('Game ongoing after ' + count + ' hands')
+        console.clear()
+}
+else {
+//    console.log('\n', 'Game winner is: ', warGame.player2, '(', count, ')')
+        prompt('Winner is: ' + warGame.player1 + ' >> ' + count)
+        console.clear()
+}
