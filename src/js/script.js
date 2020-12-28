@@ -38,13 +38,19 @@ class Deck {
             let removedItem;
             for (let i=0; i<number; i++) {
                 removedItem = this.cards.pop();
-                this.cards.splice(Math.floor(Math.random()*this.cards.length/2),0,removedItem);
+                this.cards.splice(Math.floor(Math.random()*this.cards.length),0,removedItem);
             } 
         }
         split() {
+            
             this.bottomStack = this.cards.splice(this.cards.length/2);
             this.topStack = this.cards;
- 
+        /*
+            for (let j=0; j<this.cards.length/2; j++)  {
+                this.bottomStack[j] = this.cards[j*2];
+                this.topStack[j] = this.cards[j*2+1];               
+            }
+        */    
             return [this.topStack, this.bottomStack];
         }
         
@@ -191,7 +197,7 @@ deck.shuffle(100)              //deck.cards ==> shuffled 52 cards
 let splitDeck = deck.split()   //splitDeck[ [top deck], [bottom deck]]
 
 let warGame = new Game (warPlay.player1, splitDeck[0], warPlay.player2, splitDeck[1]);
-//  console.log(splitDeck[0], splitDeck[1]);  
+  console.log(splitDeck[0], splitDeck[1]);  
 
 let arr1 = [];  // array [[winner name], [2 face up cards], [all cards on table]]
 
