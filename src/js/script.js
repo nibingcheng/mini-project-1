@@ -44,6 +44,7 @@ class Deck {
         split() {
             this.bottomStack = this.cards.splice(this.cards.length/2);
             this.topStack = this.cards;
+ 
             return [this.topStack, this.bottomStack];
         }
         
