@@ -92,7 +92,9 @@ class Game {
         this.drawnCardsPlayer1 = [];
         this.drawnCardsPlayer2 = [];
 
-        for (let i=0; i<num; i++) {
+        let n = Math.min(num, this.stack1.length, this.stack2.length)
+
+        for (let i=0; i<n; i++) {
             this.drawnCardsPlayer1[i] = this.stack1.shift();
             this.drawnCardsPlayer2[i] = this.stack2.shift();
         }
@@ -194,13 +196,15 @@ let arr1 = [];  // array [[winner name], [2 face up cards], [all cards on table]
 
 function gameStart() {
     let k =0;
-    while (Math.min(warGame.stack1.length, warGame.stack2.length) >0 && k<250) {      //for (let k=0; k<250; k++)
+    while (warGame.stack1.length*warGame.stack2.length !==0 && k<250) {      //for (let k=0; k<250; k++)
         k++;
         console.log("start", warGame.player1, warGame.stack1.length, warGame.player2, warGame.stack2.length)
 
         arr1 = warPlay.showHands();
+
         if (arr1[1][0] === undefined || arr1[1][1] === undefined)  // double safety for ending game properly
             return k;
+
         if (arr1[0] !== 'tie') {    
         console.log(arr1[0], arr1[1]);
         warPlay.winnerTakeAll();
@@ -223,15 +227,15 @@ let count = gameStart();
 
 if (warGame.stack1.length > warGame.stack2.length && count!== 250) { 
 //    console.log('\n', 'Game winner is: ', warGame.player1, '(', count, ')')
-        prompt('Winner is: ' + warGame.player1 + ' >> ' + count);
+        prompt('Winner is: ' + warGame.player1 + ' [# of hands played]: ' + count);
         console.clear();
 }
 else if (count ===250) {
-        prompt('Game ongoing after ' + count + ' hands')
+        prompt('Undecided after ' + count + ' hands played')
         console.clear()
 }
 else {
 //    console.log('\n', 'Game winner is: ', warGame.player2, '(', count, ')')
-        prompt('Winner is: ' + warGame.player1 + ' >> ' + count)
+        prompt('Winner is: ' + warGame.player2 + ' [# of hands played]: ' + count)
         console.clear()
 }
