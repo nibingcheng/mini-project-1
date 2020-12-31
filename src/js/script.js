@@ -201,9 +201,9 @@ let warGame = new Game (warPlay.player1, splitDeck[0], warPlay.player2, splitDec
 
 let arr1 = [];  // array [[winner name], [2 face up cards], [all cards on table]]
 
-function gameStart() {
+function gameStart(maxGameLength) {
     let k =0;
-    while (warGame.stack1.length*warGame.stack2.length !==0 && k<250) {      //for (let k=0; k<250; k++)
+    while (warGame.stack1.length*warGame.stack2.length !==0 && k<maxGameLength) {      //for (let k=0; k<250; k++)
         k++;
         console.log("start", warGame.player1, warGame.stack1.length, warGame.player2, warGame.stack2.length)
 
@@ -229,15 +229,15 @@ function gameStart() {
     }
     return k;
 } 
+let x = 300;
+let count = gameStart(x);
 
-let count = gameStart();
-
-if (warGame.stack1.length > warGame.stack2.length && count!== 250) { 
+if (warGame.stack1.length > warGame.stack2.length && count!== x) { 
 //    console.log('\n', 'Game winner is: ', warGame.player1, '(', count, ')')
         prompt('Winner is: ' + warGame.player1 + ' [# of hands played]: ' + count);
         console.clear();
 }
-else if (count ===250) {
+else if (count === x) {
         prompt('Undecided after ' + count + ' hands played')
         console.clear()
 }
